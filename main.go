@@ -2,14 +2,19 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
-	"kilvish.io/cerebro/server"
+	"kilvish.io/cerebro/service"
 )
+
+// func main() {
+// 	fmt.Println("Hello world!")
+// 	server.Init()
+// 	router := server.GetRouter()
+// 	http.ListenAndServe(":8080", router)
+// }
 
 func main() {
 	fmt.Println("Hello world!")
-	server.Init()
-	router := server.GetRouter()
-	http.ListenAndServe(":8080", router)
+	kp := service.KafkaPublisher{}
+	kp.Publish("kilvish-test", "gfjkwnljllfjwf")
 }

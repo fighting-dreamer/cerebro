@@ -1,5 +1,5 @@
 package config
 
-HomeLoan="HOMELOAN"
-EducationLoan="EDUCATIONLOAN"
-CarLoan="CARLOAN"
+const HomeLoan = "HOMELOAN"
+const EducationLoan = "EDUCATIONLOAN"
+const CarLoan = "CARLOAN"
