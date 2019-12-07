@@ -1,6 +1,10 @@
 package handler
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"kilvish.io/cerebro/entity"
@@ -18,7 +22,19 @@ func NewAutoAssignHandler() *AutoAssignHandler {
 }
 
 func deserializeToAutoAssignRequestAndValidate(r *http.Request) (entity.AutoAssignRequest, error) {
-	return entity.AutoAssignRequest{}, nil
+	if r.Body == nil {
+		return entity.AutoAssignRequest{}, errors.New("EmptyBody")
+	}
+	defer r.Body.Close()
+
+	request := &entity.AutoAssignRequest{}
+	bodyBytes, _ := ioutil.ReadAll(r.Body)
+	err := json.Unmarshal(bodyBytes, request)
+
+	if err != nil {
+		return entity.AutoAssignRequest{}, err
+	}
+	return *request, nil
 }
 
 func (a *AutoAssignHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +42,7 @@ func (a *AutoAssignHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// Do something and send appropriate response
 	}
+	fmt.Println(autoAssignRequest)
 	go a.bs.Assign(&autoAssignRequest)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")

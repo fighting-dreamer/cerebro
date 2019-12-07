@@ -19,7 +19,7 @@ func Init() {
 func mapHandlers(r *mux.Router) {
 	r.HandleFunc("/ping", handler.PingHandler).Methods("GET")
 	aah := handler.NewAutoAssignHandler()
-	r.HandleFunc("/auto-assign", aah.ServeHTTP).Methods("GET")
+	r.HandleFunc("/auto-assign", aah.ServeHTTP).Methods("POST")
 	//SwaggerUI Handler
 	// fs := http.FileServer(http.Dir("./swaggerui/"))
 	// r.PathPrefix("/swaggerui/").Handler(http.StripPrefix("/swaggerui/", fs))

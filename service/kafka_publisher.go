@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"math/rand"
+	"strconv"
 
 	kafka "github.com/segmentio/kafka-go"
 	"kilvish.io/cerebro/config"
@@ -20,11 +22,11 @@ func (kp *KafkaPublisher) Publish(topic string, requestStr string) error {
 		Topic:    topic,
 		Balancer: &kafka.Hash{},
 	})
-
+	uniqueID := strconv.Itoa(rand.Intn(1000000))
 	w.WriteMessages(context.Background(),
 		kafka.Message{
-			Key:   []byte("Key-A"),
-			Value: []byte("Hello World!"),
+			Key:   []byte(uniqueID),
+			Value: []byte(requestStr),
 		},
 	)
 

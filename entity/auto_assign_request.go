@@ -1,6 +1,7 @@
 package entity
 
 type AutoAssignRequest struct {
-	applicationID string
-	params        map[string]string
+	ApplicationID string            `json:"id"`
+	Type          string            `json:"type"`
+	Params        map[string]string `json:"params"`
 }

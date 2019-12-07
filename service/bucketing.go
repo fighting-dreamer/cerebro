@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"kilvish.io/cerebro/config"
@@ -12,11 +13,22 @@ type BucketingService struct {
 }
 
 func (bs *BucketingService) InferBucket(aar *entity.AutoAssignRequest) string {
-	return config.HomeLoan
+	if aar.Type == config.HomeLoan {
+		return config.HomeLoan
+	}
+	if aar.Type == config.CarLoan {
+		return config.HomeLoan
+	}
+	if aar.Type == config.EducationLoan {
+		return config.HomeLoan
+	}
+	return "default"
 }
 
 func (bs *BucketingService) AddRequestToBucket(bucket string, aar *entity.AutoAssignRequest) string {
-
+	request, _ := json.Marshal(aar)
+	topic := "kilvish-" + bucket
+	bs.Kp.Publish(topic, string(request))
 	return "request-Added"
 }
 
