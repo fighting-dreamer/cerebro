@@ -46,5 +46,5 @@ func (a *AutoAssignHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	go a.bs.Assign(&autoAssignRequest)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte("done"))
+	w.Write([]byte(`{"status":"done"}`))
 }
